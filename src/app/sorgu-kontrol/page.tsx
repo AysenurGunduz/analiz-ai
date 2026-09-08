@@ -147,7 +147,7 @@ export default function SorguKontrolPage() {
               type="button"
               onClick={run}
               disabled={!canRun}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-[13px] font-semibold text-[var(--accent-fg)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-35"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-[13px] font-semibold text-[var(--accent-fg)] transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-35"
             >
               Kontrol Et <ArrowRight className="h-4 w-4" />
             </button>
