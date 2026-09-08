@@ -218,8 +218,23 @@ Gherkin satır üretimi tek yerde (`gherkinLines` / `scenarioToText`) — birden
 - [x] `demo.ts` gerçek çıktıyla güncellendi
 - Prompt ince ayarı: gerek görülmedi, çıktılar şemaya ve dile uygun
 
-### Kalanlar (4–5. gün)
-- [ ] Kopyala/indir butonlarının UI'da gerçek çıktıyla doğrulanması
+### Sorgu Çıktısı Kontrolü modülü (feat/sorgu-cikti-kontrol)
+İkinci sayfa: `/sorgu-kontrol`. Analist SQL çıktısını (CSV/TSV) + opsiyonel sorgu metnini
+yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitmez).
+
+- `src/lib/query-check.ts` — `parseDelimited` (tırnak/kaçış destekli, ayraç otomatik),
+  `inferColumnType` + `dominantConcreteType` (mixed kolonda çoğunluk tipi),
+  `checkSql` (`= NULL`, `SELECT *`, WHERE/LIMIT yok, JOIN'de ON yok, baştan joker),
+  `checkQueryOutput` (ana fonksiyon), `reportToMarkdown`
+- Kontroller: boş sonuç kümesi · NULL/boş hücre · hata işaretçisi (`#REF!`, `ORA-`, `NaN`…) ·
+  tip uyumsuzluğu · tarih format tutarsızlığı · tutar kolonunda negatif ·
+  benzersiz anahtar kolonunda tekrar (FK/filtre kolonları hariç: distinct oranı ile ayırt)
+- `src/components/QueryReport.tsx` — özet çipleri, boş-sonuç banner'ı, SQL uyarıları,
+  hücreleri renklendiren tablo (kırmızı=hata, sarı=uyarı, ∅=boş), bulgu listesi, "rapor" kopyala
+- `src/lib/query-samples.ts` — 3 örnek (hatalı satırlar / boş küme / temiz)
+- `src/components/SiteNav.tsx` — header'da Analiz ↔ Sorgu Kontrolü geçişi
+
+### Kalanlar
 - [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri
 - [ ] (Opsiyonel) Vercel deploy
