@@ -1,6 +1,6 @@
 # ReqToStory · AI Destekli İş Analizi ve Gereksinim Asistanı
 
-İki modüllü hafif iç araç:
+Üç modüllü hafif iç araç:
 
 1. **Analiz** (`/`) — Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli
    gereksinimleri **Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**,
@@ -8,6 +8,10 @@
 2. **Sorgu Kontrolü** (`/sorgu-kontrol`) — Analistin çalıştırdığı SQL sorgusunun çıktısını
    (CSV/TSV) alır; boş sonuç kümesi, NULL/boş hücre, tip-format tutarsızlığı ve hata
    işaretçilerini renklendirerek işaretler. Tamamen istemci tarafında, saf fonksiyon.
+3. **Veri Doğrulama** (`/veri-dogrulama`) — Ham veriyi tanımlı bir **şemaya** göre doğrular:
+   zorunlu alanlar, tip/format, tarih formatı, izinli değerler (enum), min/max, regex,
+   benzersizlik + hazır **TCKN / IBAN / e-posta / telefon** doğrulayıcıları. Şema otomatik
+   çıkarılır, elle düzenlenir, JSON olarak dışa/içe aktarılır. Auto-fix yok — sadece öneri.
 
 ## Teknoloji
 
@@ -42,6 +46,8 @@ Ayrıntılı implementation notları: [docs/IMPLEMENTATION.md](docs/IMPLEMENTATI
 | UI (analiz) | `src/app/page.tsx`, `src/components/*` | Sol girdi paneli / sağ çıktı kartları |
 | Sorgu kontrolü | `src/lib/query-check.ts` | Ayrıştırıcı + kontrol fonksiyonu (parser, tip çıkarımı, SQL lint) |
 | Sorgu UI | `src/app/sorgu-kontrol/page.tsx`, `src/components/QueryReport.tsx` | Girdi + işaretli tablo + bulgu raporu |
+| Veri doğrulama | `src/lib/validation/` | `validators` (tip/TCKN/IBAN/…), `infer` (şema çıkarımı), `presets`, `validate` (ana fonksiyon + JSON I/O) |
+| Doğrulama UI | `src/app/veri-dogrulama/page.tsx`, `src/components/validation/*` | Veri + şema editörü + işaretli tablo + öneriler |
 
 ## Çıktı formatı
 
