@@ -218,7 +218,7 @@ export default function VeriDogrulamaPage() {
                 spellCheck={false}
                 className={`${fieldClass} resize-y font-mono text-[12px]`}
               />
-              {jsonError && <p className="mt-1 text-[12px] text-rose-300">{jsonError}</p>}
+              {jsonError && <p className="mt-1 text-[12px] text-err">{jsonError}</p>}
               <div className="mt-2 flex gap-2">
                 <button
                   type="button"

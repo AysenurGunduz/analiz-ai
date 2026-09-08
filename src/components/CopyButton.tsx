@@ -37,7 +37,7 @@ export function CopyButton({
     >
       {copied ? (
         <>
-          <Check className="h-3 w-3 text-emerald-400" /> kopyalandı
+          <Check className="h-3 w-3 text-ok" /> kopyalandı
         </>
       ) : (
         <>

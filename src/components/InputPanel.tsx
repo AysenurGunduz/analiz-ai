@@ -58,7 +58,7 @@ export function InputPanel({
           className={`${fieldClass} resize-y leading-relaxed placeholder:text-faint`}
         />
         <div className="mt-1 flex items-center justify-between font-mono text-[11px]">
-          <span className={tooShort ? "text-amber-400" : "text-faint"}>
+          <span className={tooShort ? "text-warn" : "text-faint"}>
             {tooShort ? `min ${MIN_CHARS} karakter (${chars})` : `${chars} karakter`}
           </span>
           {chars > 0 && (
