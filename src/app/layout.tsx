@@ -41,7 +41,7 @@ export default function RootLayout({
             </div>
             <span className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              gemini-2.0-flash
+              gemini-3.6-flash
             </span>
           </div>
         </header>

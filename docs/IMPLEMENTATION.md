@@ -28,7 +28,7 @@ ReqToStory, tek ekranlık bir iç araçtır:
 | Stil | Tailwind CSS v4 | Hızlı, bağımlılıksız; v4 sıfır-config |
 | Bileşen kütüphanesi | **Elle yazılmış** (shadcn görünümü) | shadcn CLI Tailwind v4 + Next 16 ile sürtünmeli; MVP'de gereksiz kurulum yükü. Bileşenler yine de shadcn diline yakın (radius, border, muted renkler) |
 | İkonlar | `lucide-react` | shadcn ekosisteminin standardı, ağaç-sarsılabilir |
-| LLM | Google Gemini `gemini-2.0-flash` | Kullanıcının API anahtarı var; cömert ücretsiz kota; hızlı; `responseSchema` ile yapısal çıktı |
+| LLM | Google Gemini `gemini-3.6-flash` | Kullanıcının API anahtarı var; hızlı; `responseSchema` ile yapısal çıktı. `gemini-2.0-flash` API'den kaldırıldı (503→retry mantığı eklendi) |
 | LLM SDK | `@google/genai` v2.x | Google'ın güncel resmi SDK'sı (`@google/generative-ai` eski) |
 | Doğrulama | `zod` | Tek şema → hem TS tipi hem runtime doğrulama |
 | Markdown önizleme | (henüz yok) | 3. güne bırakıldı; `react-markdown` opsiyonel |
@@ -110,7 +110,8 @@ de güncelle.
 4. **`gemini.ts` `generateAnalysis`**:
    - `GEMINI_API_KEY` kontrol edilir (yoksa açıklayıcı hata)
    - `ai.models.generateContent`:
-     - `model`: env `GEMINI_MODEL` ya da `gemini-2.0-flash`
+     - `model`: env `GEMINI_MODEL` ya da `gemini-3.6-flash`
+     - 503/429/500 durumunda üstel bekleme ile 3 kez tekrar (`generateWithRetry`)
      - `systemInstruction`: `SYSTEM_PROMPT`
      - `contents`: `buildUserPrompt(req)` (bağlam + ham metin)
      - `responseMimeType: "application/json"` + `responseSchema: RESPONSE_SCHEMA`
@@ -179,7 +180,7 @@ Gherkin satır üretimi tek yerde (`gherkinLines` / `scenarioToText`) — birden
 | Değişken | Zorunlu | Varsayılan | Açıklama |
 | --- | --- | --- | --- |
 | `GEMINI_API_KEY` | ✅ | — | https://aistudio.google.com/app/apikey |
-| `GEMINI_MODEL` | ❌ | `gemini-2.0-flash` | `gemini-2.0-flash`, `gemini-1.5-pro` vb. |
+| `GEMINI_MODEL` | ❌ | `gemini-3.6-flash` | Geçerli bir Gemini model adı |
 
 `.env.local` git'e girmez (`.gitignore` → `.env*`). Şablon: `.env.example`.
 
@@ -210,9 +211,15 @@ Gherkin satır üretimi tek yerde (`gherkinLines` / `scenarioToText`) — birden
 - [x] ⌘/Ctrl + Enter ile gönderme
 - [x] "temizle" butonu + taslağın `localStorage`'a otomatik kaydı (`reqtostory:draft`)
 
-### Kalanlar (3–5. gün)
-- [ ] Gerçek API anahtarıyla uçtan uca test + prompt ince ayarı
-- [ ] Kopyala/indir butonlarının gerçek çıktıyla doğrulanması
+### Gerçek Gemini testi (feat/gemini-live-test)
+- [x] `gemini-3.6-flash` ile uçtan uca test — 4 örnek senaryo, çıktı kalitesi iyi
+- [x] Belirsiz girdi davranışı doğrulandı (tek hikaye + openQuestions)
+- [x] 503/429 retry mantığı (`generateWithRetry`, üstel bekleme)
+- [x] `demo.ts` gerçek çıktıyla güncellendi
+- Prompt ince ayarı: gerek görülmedi, çıktılar şemaya ve dile uygun
+
+### Kalanlar (4–5. gün)
+- [ ] Kopyala/indir butonlarının UI'da gerçek çıktıyla doğrulanması
 - [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri
 - [ ] (Opsiyonel) Vercel deploy
