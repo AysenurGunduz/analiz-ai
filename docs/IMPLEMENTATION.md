@@ -234,6 +234,23 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
 - `src/lib/query-samples.ts` — 3 örnek (hatalı satırlar / boş küme / temiz)
 - `src/components/SiteNav.tsx` — header'da Analiz ↔ Sorgu Kontrolü geçişi
 
+### Otomatik Veri Doğrulama modülü (feat/veri-dogrulama-modulu)
+Üçüncü sayfa: `/veri-dogrulama`. Ham veriyi tanımlı bir şemaya göre doğrular. Saf istemci.
+
+- `src/lib/validation/`
+  - `types.ts` — `FieldRule` (type/required/unique/min/max/pattern/allowed/dateFormat/notFuture…),
+    `Schema`, `ValidationIssue`, `ValidationReport`, `IssueCode`
+  - `validators.ts` — `checkType` (öneri döndürür), `parseAnyDate` (→ ISO), `isValidTckn`
+    (kontrol hanesi), `isValidIban` (mod-97), `isValidEmail`, `normalizePhone` (TR)
+  - `infer.ts` — `inferFieldType` + `inferSchema` (sıfır-ayar başlangıç; baskın tarih
+    formatını sabitler, anahtar kolonda ~benzersizlik, adet/miktar → min 0)
+  - `presets.ts` — TCKN/IBAN/e-posta/telefon/tutar/ISO-tarih/anahtar/enum hazır kuralları
+  - `validate.ts` — `validateDataset` (ana), `schemaToJson`/`schemaFromJson`, `validationReportToMarkdown`
+- `src/components/validation/SchemaEditor.tsx` — kolon başına düzenlenebilir kural tablosu + preset uygula
+- `src/components/validation/ValidationReportView.tsx` — özet, işaretli tablo (öneriler hücre içinde), bulgu listesi
+- Auto-fix YOK — öneriler sadece gösterilir (`issue.suggestion`), veriye dokunulmaz
+- `SiteNav`'a 3. sekme
+
 ### Kalanlar
 - [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri

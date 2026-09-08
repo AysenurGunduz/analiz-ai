@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileSearch, Sparkles } from "lucide-react";
+import { FileSearch, ShieldCheck, Sparkles } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
   { href: "/", label: "Analiz", icon: Sparkles },
   { href: "/sorgu-kontrol", label: "Sorgu Kontrolü", icon: FileSearch },
+  { href: "/veri-dogrulama", label: "Veri Doğrulama", icon: ShieldCheck },
 ];
 
 export function SiteNav() {
