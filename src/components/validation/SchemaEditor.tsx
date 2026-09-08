@@ -88,7 +88,7 @@ export function SchemaEditor({
                 <td className="px-2 py-1.5 font-mono">
                   {col}
                   {missing && (
-                    <span className="ml-1 text-[10px] text-amber-400" title="veride yok">
+                    <span className="ml-1 text-[10px] text-warn" title="veride yok">
                       ⚠
                     </span>
                   )}

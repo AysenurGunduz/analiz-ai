@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Sparkles } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
+import { ThemeToggle, themeInitScript } from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-bg text-ink">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <header className="sticky top-0 z-20 border-b border-line bg-bg/80 backdrop-blur">
           <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-5">
             <div className="flex items-center gap-2.5">
@@ -38,10 +40,13 @@ export default function RootLayout({
               <span className="text-sm font-semibold tracking-tight">ReqToStory</span>
             </div>
             <SiteNav />
-            <span className="ml-auto hidden items-center gap-1.5 rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted sm:flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              gemini-3.6-flash
-            </span>
+            <div className="ml-auto flex items-center gap-2">
+              <span className="hidden items-center gap-1.5 rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted sm:flex">
+                <span className="h-1.5 w-1.5 rounded-full bg-ok" />
+                gemini-3.6-flash
+              </span>
+              <ThemeToggle />
+            </div>
           </div>
         </header>
         {children}

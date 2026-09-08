@@ -6,9 +6,9 @@ import { GherkinBlock } from "./GherkinBlock";
 import { CopyButton } from "./CopyButton";
 
 const PRIORITY_STYLE: Record<UserStory["priority"], string> = {
-  Yüksek: "border-rose-500/30 bg-rose-500/10 text-rose-300",
-  Orta: "border-amber-500/30 bg-amber-500/10 text-amber-300",
-  Düşük: "border-line-strong bg-white/5 text-muted",
+  Yüksek: "border-err-line bg-err-bg text-err",
+  Orta: "border-warn-line bg-warn-bg text-warn",
+  Düşük: "border-line-strong bg-hover text-muted",
 };
 
 function storyText(s: UserStory): string {
@@ -84,7 +84,7 @@ export function StoryCard({ story }: { story: UserStory }) {
             <ul className="space-y-1.5 text-[13px] text-muted">
               {story.edgeCases.map((e, i) => (
                 <li key={i} className="flex gap-2">
-                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-rose-400/70" />
+                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-err" />
                   {e}
                 </li>
               ))}
@@ -98,7 +98,7 @@ export function StoryCard({ story }: { story: UserStory }) {
             <ul className="space-y-1.5 text-[13px] text-muted">
               {story.businessRules.map((r, i) => (
                 <li key={i} className="flex gap-2">
-                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-sky-400/70" />
+                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-kw-given" />
                   {r}
                 </li>
               ))}

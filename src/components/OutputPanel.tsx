@@ -9,10 +9,10 @@ import { StoryCard } from "./StoryCard";
 function SkeletonCard() {
   return (
     <div className="surface animate-pulse rounded-xl p-4">
-      <div className="h-2.5 w-20 rounded bg-white/10" />
-      <div className="mt-2 h-4 w-2/3 rounded bg-white/10" />
-      <div className="mt-4 h-16 rounded bg-white/5" />
-      <div className="mt-3 h-20 rounded bg-white/5" />
+      <div className="h-2.5 w-20 rounded bg-hover" />
+      <div className="mt-2 h-4 w-2/3 rounded bg-hover" />
+      <div className="mt-4 h-16 rounded bg-inset" />
+      <div className="mt-3 h-20 rounded bg-inset" />
     </div>
   );
 }
@@ -56,8 +56,8 @@ export function OutputPanel({
 
   if (error) {
     return (
-      <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-[13px] text-rose-200">
-        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-rose-300">
+      <div className="rounded-xl border border-err-line bg-err-bg p-4 text-[13px] text-err">
+        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-err">
           analiz başarısız
         </p>
         <p className="mt-1.5 whitespace-pre-wrap leading-relaxed">{error}</p>
@@ -107,10 +107,10 @@ export function OutputPanel({
         <div className="grid gap-3 sm:grid-cols-2">
           {result.assumptions.length > 0 && (
             <div className="surface-inset rounded-xl p-3 text-[13px]">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-amber-300/80">
+              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-warn">
                 <Lightbulb className="h-3.5 w-3.5" /> Varsayımlar
               </h4>
-              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-amber-400/50">
+              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-warn">
                 {result.assumptions.map((a, i) => (
                   <li key={i}>{a}</li>
                 ))}
@@ -119,10 +119,10 @@ export function OutputPanel({
           )}
           {result.openQuestions.length > 0 && (
             <div className="surface-inset rounded-xl p-3 text-[13px]">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-sky-300/80">
+              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-kw-given">
                 <HelpCircle className="h-3.5 w-3.5" /> Açık Sorular
               </h4>
-              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-sky-400/50">
+              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-kw-given">
                 {result.openQuestions.map((q, i) => (
                   <li key={i}>{q}</li>
                 ))}

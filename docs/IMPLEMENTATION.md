@@ -251,6 +251,15 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
 - Auto-fix YOK — öneriler sadece gösterilir (`issue.suggestion`), veriye dokunulmaz
 - `SiteNav`'a 3. sekme
 
+### Açık tema + toggle (feat/acik-tema-toggle)
+- **Varsayılan artık AÇIK tema** (`#f7f8fa` zemin). Header'da güneş/ay toggle'ı → koyu tema,
+  `localStorage['reqtostory:theme']`'de saklanır, FOUC engelleyen inline script `<body>` başında.
+- Tema `:root` (açık) / `:root[data-theme="dark"]` CSS değişkenleriyle; Tailwind v4
+  `@custom-variant dark` tanımlı.
+- Renkler artık semantik token: `bg-hover`, `text-ok/warn/err/info`, `bg-warn-bg/err-bg`,
+  `ring-warn-line/err-line`, `text-kw-scenario/given/when/then`. Bileşenlerde ham
+  `rose-*/amber-*/emerald-*/white/N` YOK — tema tek yerden (`globals.css`) değişir.
+
 ### Kalanlar
 - [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri

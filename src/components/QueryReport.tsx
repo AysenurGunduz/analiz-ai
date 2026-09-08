@@ -18,15 +18,15 @@ import { cn } from "@/lib/cn";
 import { CopyButton } from "./CopyButton";
 
 const SEV_CELL: Record<Severity, string> = {
-  error: "bg-rose-500/20 text-rose-200 ring-1 ring-inset ring-rose-500/40",
-  warning: "bg-amber-500/15 text-amber-200 ring-1 ring-inset ring-amber-500/30",
-  info: "bg-white/5 text-faint",
+  error: "bg-err-bg text-err ring-1 ring-inset ring-err-line",
+  warning: "bg-warn-bg text-warn ring-1 ring-inset ring-warn-line",
+  info: "bg-hover text-faint",
 };
 
 const SEV_DOT: Record<Severity, string> = {
-  error: "bg-rose-400",
-  warning: "bg-amber-400",
-  info: "bg-zinc-500",
+  error: "bg-err",
+  warning: "bg-warn",
+  info: "bg-info",
 };
 
 function Chip({ label, value, tone }: { label: string; value: number | string; tone?: Severity }) {
@@ -80,27 +80,27 @@ export function QueryReport({ report }: { report: QueryCheckReport | null }) {
         <p className="mt-3 flex items-center gap-2 border-t border-line pt-3 text-[13px]">
           {emptyResult ? (
             <>
-              <Inbox className="h-4 w-4 text-amber-400" />
-              <span className="text-amber-200">Sorgu boş sonuç kümesi döndürdü.</span>
+              <Inbox className="h-4 w-4 text-warn" />
+              <span className="text-warn">Sorgu boş sonuç kümesi döndürdü.</span>
             </>
           ) : summary.errors > 0 ? (
             <>
-              <XCircle className="h-4 w-4 text-rose-400" />
-              <span className="text-rose-200">
+              <XCircle className="h-4 w-4 text-err" />
+              <span className="text-err">
                 {summary.errors} hata, {summary.affectedRows} satırda sorun bulundu.
               </span>
             </>
           ) : summary.warnings > 0 ? (
             <>
-              <AlertTriangle className="h-4 w-4 text-amber-400" />
-              <span className="text-amber-200">
+              <AlertTriangle className="h-4 w-4 text-warn" />
+              <span className="text-warn">
                 {summary.warnings} uyarı var — kontrol edilmesi öneriliyor.
               </span>
             </>
           ) : (
             <>
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span className="text-emerald-200">Belirgin bir sorun bulunamadı.</span>
+              <CheckCircle2 className="h-4 w-4 text-ok" />
+              <span className="text-ok">Belirgin bir sorun bulunamadı.</span>
             </>
           )}
         </p>
@@ -108,11 +108,11 @@ export function QueryReport({ report }: { report: QueryCheckReport | null }) {
 
       {/* Boş sonuç kümesi */}
       {emptyResult && (
-        <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-[13px] text-amber-100">
-          <Inbox className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
+        <div className="flex items-start gap-3 rounded-xl border border-warn-line bg-warn-bg p-4 text-[13px] text-warn">
+          <Inbox className="mt-0.5 h-4 w-4 shrink-0 text-warn" />
           <div>
             <p className="font-semibold">Boş sonuç kümesi</p>
-            <p className="mt-1 text-amber-200/90">
+            <p className="mt-1 opacity-90">
               Sorgu hiç kayıt döndürmedi. WHERE koşulları, tarih aralığı veya JOIN
               eşleşmelerini kontrol edin; beklenen buysa yok sayabilirsiniz.
             </p>
@@ -231,11 +231,11 @@ export function QueryReport({ report }: { report: QueryCheckReport | null }) {
       {/* Açıklama */}
       <div className="flex flex-wrap gap-3 px-1 font-mono text-[11px] text-faint">
         <span className="flex items-center gap-1.5">
-          <span className="h-2 w-3 rounded-sm bg-rose-500/30 ring-1 ring-inset ring-rose-500/40" />
+          <span className="h-2 w-3 rounded-sm bg-err-bg ring-1 ring-inset ring-err-line" />
           hata
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-2 w-3 rounded-sm bg-amber-500/20 ring-1 ring-inset ring-amber-500/30" />
+          <span className="h-2 w-3 rounded-sm bg-warn-bg ring-1 ring-inset ring-warn-line" />
           uyarı
         </span>
         <span>∅ = boş hücre</span>

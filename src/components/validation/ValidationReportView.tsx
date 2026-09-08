@@ -13,14 +13,14 @@ import { cn } from "@/lib/cn";
 import { CopyButton } from "../CopyButton";
 
 const SEV_CELL: Record<Severity, string> = {
-  error: "bg-rose-500/20 text-rose-100 ring-1 ring-inset ring-rose-500/40",
-  warning: "bg-amber-500/15 text-amber-100 ring-1 ring-inset ring-amber-500/30",
-  info: "bg-white/5 text-faint",
+  error: "bg-err-bg text-err ring-1 ring-inset ring-err-line",
+  warning: "bg-warn-bg text-warn ring-1 ring-inset ring-warn-line",
+  info: "bg-hover text-faint",
 };
 const SEV_DOT: Record<Severity, string> = {
-  error: "bg-rose-400",
-  warning: "bg-amber-400",
-  info: "bg-zinc-500",
+  error: "bg-err",
+  warning: "bg-warn",
+  info: "bg-info",
 };
 
 function issueAt(issues: ValidationIssue[], row: number, col: number) {
@@ -81,25 +81,25 @@ export function ValidationReportView({
         <p className="mt-3 flex items-center gap-2 border-t border-line pt-3 text-[13px]">
           {emptyResult ? (
             <>
-              <Inbox className="h-4 w-4 text-amber-400" />
-              <span className="text-amber-200">Boş veri kümesi.</span>
+              <Inbox className="h-4 w-4 text-warn" />
+              <span className="text-warn">Boş veri kümesi.</span>
             </>
           ) : summary.errors > 0 ? (
             <>
-              <XCircle className="h-4 w-4 text-rose-400" />
-              <span className="text-rose-200">
+              <XCircle className="h-4 w-4 text-err" />
+              <span className="text-err">
                 {summary.errors} hata · {summary.affectedRows}/{report.rowCount} satır sorunlu.
               </span>
             </>
           ) : summary.warnings > 0 ? (
             <>
-              <AlertTriangle className="h-4 w-4 text-amber-400" />
-              <span className="text-amber-200">{summary.warnings} uyarı — kontrol önerilir.</span>
+              <AlertTriangle className="h-4 w-4 text-warn" />
+              <span className="text-warn">{summary.warnings} uyarı — kontrol önerilir.</span>
             </>
           ) : (
             <>
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span className="text-emerald-200">Şemaya göre tüm satırlar geçerli.</span>
+              <CheckCircle2 className="h-4 w-4 text-ok" />
+              <span className="text-ok">Şemaya göre tüm satırlar geçerli.</span>
             </>
           )}
         </p>
@@ -156,7 +156,7 @@ export function ValidationReportView({
                         >
                           {raw === "" ? <span className="text-faint italic">∅</span> : raw}
                           {f?.suggestion && (
-                            <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] text-emerald-300/80">
+                            <span className="ml-1.5 inline-flex items-center gap-0.5 text-[10px] text-ok">
                               <ArrowRight className="h-2.5 w-2.5" />
                               {f.suggestion}
                             </span>
@@ -190,7 +190,7 @@ export function ValidationReportView({
                     <span className="font-mono text-[11px] text-faint">[{ISSUE_LABELS[i.code]}]</span>{" "}
                     {i.message}
                     {i.suggestion && (
-                      <span className="text-emerald-300/80"> → öneri: {i.suggestion}</span>
+                      <span className="text-ok"> → öneri: {i.suggestion}</span>
                     )}
                   </span>
                 </li>
@@ -201,13 +201,13 @@ export function ValidationReportView({
 
       <div className="flex flex-wrap gap-3 px-1 font-mono text-[11px] text-faint">
         <span className="flex items-center gap-1.5">
-          <span className="h-2 w-3 rounded-sm bg-rose-500/30 ring-1 ring-inset ring-rose-500/40" /> hata
+          <span className="h-2 w-3 rounded-sm bg-err-bg ring-1 ring-inset ring-err-line" /> hata
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-2 w-3 rounded-sm bg-amber-500/20 ring-1 ring-inset ring-amber-500/30" /> uyarı
+          <span className="h-2 w-3 rounded-sm bg-warn-bg ring-1 ring-inset ring-warn-line" /> uyarı
         </span>
         <span className="flex items-center gap-1.5">
-          <ArrowRight className="h-3 w-3 text-emerald-300/80" /> öneri (uygulanmaz)
+          <ArrowRight className="h-3 w-3 text-ok" /> öneri (uygulanmaz)
         </span>
       </div>
     </div>

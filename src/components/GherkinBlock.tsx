@@ -2,10 +2,10 @@ import type { GherkinScenario } from "@/lib/types";
 import { CopyButton } from "./CopyButton";
 
 const KEYWORD_CLASS: Record<string, string> = {
-  Scenario: "text-violet-400",
-  Given: "text-sky-400",
-  When: "text-amber-400",
-  Then: "text-emerald-400",
+  Scenario: "text-kw-scenario",
+  Given: "text-kw-given",
+  When: "text-kw-when",
+  Then: "text-kw-then",
   And: "text-faint",
 };
 
