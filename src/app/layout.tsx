@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Sparkles } from "lucide-react";
+import { SiteNav } from "@/components/SiteNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,17 +30,15 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-bg text-ink">
         <header className="sticky top-0 z-20 border-b border-line bg-bg/80 backdrop-blur">
-          <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-5">
+          <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-5">
             <div className="flex items-center gap-2.5">
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-[var(--accent-fg)]">
                 <Sparkles className="h-4 w-4" />
               </span>
               <span className="text-sm font-semibold tracking-tight">ReqToStory</span>
-              <span className="hidden font-mono text-[11px] text-faint sm:inline">
-                requirements → user stories
-              </span>
             </div>
-            <span className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted">
+            <SiteNav />
+            <span className="ml-auto hidden items-center gap-1.5 rounded-md border border-line px-2.5 py-1 font-mono text-[11px] text-muted sm:flex">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
               gemini-3.6-flash
             </span>

@@ -1,8 +1,13 @@
 # ReqToStory · AI Destekli İş Analizi ve Gereksinim Asistanı
 
-Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli gereksinimleri
-**Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**, **edge case'ler**
-ve **iş kurallarına** dönüştüren hafif iç araç.
+İki modüllü hafif iç araç:
+
+1. **Analiz** (`/`) — Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli
+   gereksinimleri **Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**,
+   **edge case'ler** ve **iş kurallarına** dönüştürür (Gemini).
+2. **Sorgu Kontrolü** (`/sorgu-kontrol`) — Analistin çalıştırdığı SQL sorgusunun çıktısını
+   (CSV/TSV) alır; boş sonuç kümesi, NULL/boş hücre, tip-format tutarsızlığı ve hata
+   işaretçilerini renklendirerek işaretler. Tamamen istemci tarafında, saf fonksiyon.
 
 ## Teknoloji
 
@@ -34,7 +39,9 @@ Ayrıntılı implementation notları: [docs/IMPLEMENTATION.md](docs/IMPLEMENTATI
 | API | `src/app/api/generate/route.ts` | POST endpoint, istek doğrulama, hata yönetimi |
 | Export | `src/lib/export.ts` | Markdown / Jira / JSON dönüştürme + indirme |
 | Örnekler | `src/lib/samples.ts` | Hızlı test senaryoları |
-| UI | `src/app/page.tsx`, `src/components/*` | Sol girdi paneli / sağ çıktı kartları |
+| UI (analiz) | `src/app/page.tsx`, `src/components/*` | Sol girdi paneli / sağ çıktı kartları |
+| Sorgu kontrolü | `src/lib/query-check.ts` | Ayrıştırıcı + kontrol fonksiyonu (parser, tip çıkarımı, SQL lint) |
+| Sorgu UI | `src/app/sorgu-kontrol/page.tsx`, `src/components/QueryReport.tsx` | Girdi + işaretli tablo + bulgu raporu |
 
 ## Çıktı formatı
 
