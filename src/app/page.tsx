@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Clock } from "lucide-react";
 import { InputPanel, type InputState } from "@/components/InputPanel";
 import { OutputPanel } from "@/components/OutputPanel";
+import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { DEMO_RESULT } from "@/lib/demo";
+import {
+  clearHistory,
+  deleteHistoryEntry,
+  loadHistory,
+  saveToHistory,
+  type AnalizHistoryEntry,
+} from "@/lib/history";
 import type { AnalysisResult, GenerateResponse } from "@/lib/types";
 
 const EMPTY: InputState = { rawText: "", projectType: "", audienceRole: "" };
@@ -24,6 +33,9 @@ export default function Page() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [history, setHistory] = useState<AnalizHistoryEntry[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   // ?demo=1 → örnek çıktı; ayrıca son taslağı localStorage'dan geri yükle.
   // Tarayıcıya özel değerler olduğu için mount sonrası okunur (SSR'da yok).
@@ -40,6 +52,7 @@ export default function Page() {
     /* eslint-disable react-hooks/set-state-in-effect */
     if (isDemo) setResult(DEMO_RESULT);
     if (draft) setInput(draft);
+    setHistory(loadHistory());
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -67,8 +80,14 @@ export default function Page() {
         }),
       });
       const json = (await res.json()) as GenerateResponse;
-      if (!json.ok) setError(json.error);
-      else setResult(json.data);
+      if (!json.ok) {
+        setError(json.error);
+      } else {
+        setResult(json.data);
+        const next = saveToHistory(input, json.data);
+        setHistory(next);
+        setActiveId(next[0]?.id ?? null);
+      }
     } catch {
       setError("Sunucuya ulaşılamadı. Ağ bağlantınızı kontrol edin.");
     } finally {
@@ -76,16 +95,46 @@ export default function Page() {
     }
   }
 
+  function restoreEntry(entry: AnalizHistoryEntry) {
+    setInput({ ...EMPTY, ...entry.input });
+    setResult(entry.result);
+    setActiveId(entry.id);
+    setError(null);
+    setHistoryOpen(false);
+  }
+
+  function removeEntry(id: string) {
+    setHistory(deleteHistoryEntry(id));
+    if (id === activeId) setActiveId(null);
+  }
+
+  function wipeHistory() {
+    setHistory(clearHistory());
+    setActiveId(null);
+  }
+
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
-      <div className="mb-8 max-w-2xl">
-        <h1 className="text-xl font-semibold tracking-tight">
-          Dağınık gereksinimleri analiz çıktısına çevir
-        </h1>
-        <p className="mt-1.5 text-sm text-muted">
-          Toplantı notu, e-posta veya serbest metni yapıştır; standart User Story,
-          Gherkin kabul kriterleri, edge case ve iş kurallarını al.
-        </p>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div className="max-w-2xl">
+          <h1 className="text-xl font-semibold tracking-tight">
+            Dağınık gereksinimleri analiz çıktısına çevir
+          </h1>
+          <p className="mt-1.5 text-sm text-muted">
+            Toplantı notu, e-posta veya serbest metni yapıştır; standart User Story,
+            Gherkin kabul kriterleri, edge case ve iş kurallarını al.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setHistoryOpen(true)}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-xs text-muted transition hover:border-line-strong hover:text-ink"
+        >
+          <Clock className="h-3.5 w-3.5" /> Geçmiş
+          {history.length > 0 && (
+            <span className="font-mono text-[10px] text-faint">{history.length}</span>
+          )}
+        </button>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
@@ -114,6 +163,16 @@ export default function Page() {
       <footer className="mt-12 border-t border-line pt-5 text-center font-mono text-[11px] text-faint">
         Next.js · Gemini · çıktı Zod ile doğrulanır
       </footer>
+
+      <HistoryDrawer
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        entries={history}
+        activeId={activeId}
+        onRestore={restoreEntry}
+        onDelete={removeEntry}
+        onClear={wipeHistory}
+      />
     </main>
   );
 }
