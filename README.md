@@ -19,7 +19,8 @@
 - Tailwind CSS v4
 - Google Gemini (`@google/genai`) — yapısal JSON çıktı (`responseSchema`)
 - Zod ile hem istek hem de model çıktısı doğrulama
-- lucide-react ikonlar
+- lucide-react ikonlar · react-markdown (Markdown önizleme)
+- Açık / koyu tema (header'da toggle, `localStorage`)
 
 ## Kurulum
 

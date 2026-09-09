@@ -260,8 +260,14 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
   `ring-warn-line/err-line`, `text-kw-scenario/given/when/then`. Bileşenlerde ham
   `rose-*/amber-*/emerald-*/white/N` YOK — tema tek yerden (`globals.css`) değişir.
 
+### Markdown önizleme (feat/markdown-onizleme)
+- `react-markdown` + `remark-gfm`. Analiz çıktısında **kartlar ↔ markdown** segmentli geçişi
+  (`OutputPanel` → `ResultView` / `CardsView` / `MarkdownPreview`).
+- `MarkdownPreview`: `components` prop ile tüm elementler tema token'larıyla stillenir;
+  ```gherkin bloklarında satır bazında anahtar kelime renklendirmesi (kartlardaki ile aynı).
+- Kaynak: mevcut `toMarkdown(result)` — kopyala/indir ile birebir aynı çıktı.
+
 ### Kalanlar
-- [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri
 - [ ] (Opsiyonel) Vercel deploy
 
