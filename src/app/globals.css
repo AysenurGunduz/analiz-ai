@@ -21,6 +21,7 @@
   --accent-fg: #ffffff;
 
   --hover-surface: rgba(15, 20, 30, 0.05);
+  --scrim: rgba(15, 20, 30, 0.35);
 
   --ok: #15803d;
   --warn: #b45309;
@@ -59,6 +60,7 @@
   --accent-fg: #ffffff;
 
   --hover-surface: rgba(255, 255, 255, 0.06);
+  --scrim: rgba(0, 0, 0, 0.55);
 
   --ok: #4ade80;
   --warn: #fbbf24;
@@ -86,6 +88,7 @@
   --color-faint: var(--text-faint);
   --color-accent: var(--accent);
   --color-hover: var(--hover-surface);
+  --color-scrim: var(--scrim);
 
   --color-ok: var(--ok);
   --color-warn: var(--warn);
