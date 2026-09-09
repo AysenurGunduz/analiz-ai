@@ -12,12 +12,16 @@
    zorunlu alanlar, tip/format, tarih formatı, izinli değerler (enum), min/max, regex,
    benzersizlik + hazır **TCKN / IBAN / e-posta / telefon** doğrulayıcıları. Şema otomatik
    çıkarılır, elle düzenlenir, JSON olarak dışa/içe aktarılır. Auto-fix yok — sadece öneri.
+4. **Rapor Doldur** (`/rapor-doldur`) — Bir rapor şablonu (**.docx** / .md / metin) + toplantı
+   notları ver; sistem şablonun yapısını bozmadan başlık altlarını ve `{{...}}` alanlarını
+   notlara göre doldurur. Çıktı: markdown önizleme + düzenleme + **.docx / .md** indirme,
+   bölüm bazlı kapsama tablosu, takip soruları. Eksik bilgiyi uydurmaz, işaretler.
 
 ## Teknoloji
 
 - Next.js 16 (App Router) + React 19
 - Tailwind CSS v4
-- Google Gemini (`@google/genai`) — yapısal JSON çıktı (`responseSchema`)
+- Google Gemini (`@google/genai`) — yapısal JSON çıktı (`responseSchema`); `mammoth` + `turndown` (.docx→md), `docx` (md→.docx)
 - Zod ile hem istek hem de model çıktısı doğrulama
 - lucide-react ikonlar · react-markdown (Markdown önizleme)
 - Açık / koyu tema (header'da toggle, `localStorage`)

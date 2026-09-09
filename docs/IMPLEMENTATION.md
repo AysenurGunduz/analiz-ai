@@ -267,6 +267,20 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
   ```gherkin bloklarında satır bazında anahtar kelime renklendirmesi (kartlardaki ile aynı).
 - Kaynak: mevcut `toMarkdown(result)` — kopyala/indir ile birebir aynı çıktı.
 
+### Rapor Şablonu Doldurma (feat/rapor-sablonu-doldurma)
+Dördüncü modül: `/rapor-doldur`. Şablon + toplantı notları → doldurulmuş rapor.
+
+- `src/lib/gemini-core.ts` — ortak `getGeminiClient` + `generateStructured` (retry + JSON parse).
+  `gemini.ts` (analiz) ve `report/fill.ts` bunu kullanır.
+- `src/lib/report/` — `types` (Zod: `FillReportResult` = filledReport markdown + coverage[] +
+  followUps[] + usedNotesSummary), `prompt` (yapıyı koru, uydurma, eksiği `_(notlarda
+  belirtilmemiş)_` yaz), `fill` (Gemini çağrısı), `docx` (client: `docxToMarkdown` mammoth+turndown,
+  `markdownToDocxBlob` docx paketiyle satır-bazlı md→docx), `samples`
+- `src/app/api/fill-report/route.ts` — POST, `maxDuration = 120`
+- `src/components/report/ReportOutput.tsx` — önizleme/düzenle geçişi, .md/.docx indir,
+  kapsama tablosu, takip soruları. Dosya dönüşümü tamamen tarayıcıda.
+- `SiteNav`'a 4. sekme
+
 ### Kalanlar
 - [ ] README ekran görüntüleri
 - [ ] (Opsiyonel) Vercel deploy
