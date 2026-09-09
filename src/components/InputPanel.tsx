@@ -8,6 +8,7 @@ import {
   type ProjectType,
 } from "@/lib/types";
 import { SAMPLES } from "@/lib/samples";
+import { RequirementHints } from "./RequirementHints";
 
 const MIN_CHARS = 20;
 
@@ -72,6 +73,8 @@ export function InputPanel({
           )}
         </div>
       </div>
+
+      <RequirementHints text={value.rawText} />
 
       <div className="grid grid-cols-2 gap-2.5">
         <label className="block">

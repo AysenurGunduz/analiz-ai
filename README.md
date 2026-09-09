@@ -4,7 +4,9 @@
 
 1. **Analiz** (`/`) — Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli
    gereksinimleri **Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**,
-   **edge case'ler** ve **iş kurallarına** dönüştürür (Gemini).
+   **edge case'ler** ve **iş kurallarına** dönüştürür (Gemini). Girdi kutusu, analiz
+   öncesi **belirsiz ifadeleri** ("hızlı olsun", "gerekirse", "vs.") istemci tarafında
+   işaretler.
 2. **Sorgu Kontrolü** (`/sorgu-kontrol`) — Analistin çalıştırdığı SQL sorgusunun çıktısını
    (CSV/TSV) alır; boş sonuç kümesi, NULL/boş hücre, tip-format tutarsızlığı ve hata
    işaretçilerini renklendirerek işaretler. Tamamen istemci tarafında, saf fonksiyon.
