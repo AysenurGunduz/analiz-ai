@@ -71,5 +71,5 @@ AnalysisResult
 
 ## Dışa aktarma
 
-- Panoya kopyala: Markdown veya Jira wiki markup
-- İndir: `.md` veya `.json`
+- Panoya kopyala: Markdown, Jira wiki markup veya Gherkin
+- İndir: `.md`, `.feature` (Cucumber — her hikaye bir `Feature:` bloğu) veya `.json`
