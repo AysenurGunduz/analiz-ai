@@ -58,7 +58,7 @@ export function InputPanel({
           className={`${fieldClass} resize-y leading-relaxed placeholder:text-faint`}
         />
         <div className="mt-1 flex items-center justify-between font-mono text-[11px]">
-          <span className={tooShort ? "text-amber-400" : "text-faint"}>
+          <span className={tooShort ? "text-warn" : "text-faint"}>
             {tooShort ? `min ${MIN_CHARS} karakter (${chars})` : `${chars} karakter`}
           </span>
           {chars > 0 && (
@@ -137,7 +137,7 @@ export function InputPanel({
       <button
         type="submit"
         disabled={!canSubmit}
-        className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-[13px] font-semibold text-[var(--accent-fg)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-35"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-[13px] font-semibold text-[var(--accent-fg)] transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-35"
       >
         {loading ? (
           <>

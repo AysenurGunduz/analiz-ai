@@ -1,18 +1,30 @@
 "use client";
 
-import { FileJson, FileText, HelpCircle, Lightbulb, Loader2, Terminal } from "lucide-react";
+import { useState } from "react";
+import {
+  AlignLeft,
+  FileJson,
+  FileText,
+  HelpCircle,
+  LayoutGrid,
+  Lightbulb,
+  Loader2,
+  Terminal,
+} from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import { downloadFile, toJira, toJson, toMarkdown } from "@/lib/export";
+import { cn } from "@/lib/cn";
 import { CopyButton } from "./CopyButton";
+import { MarkdownPreview } from "./MarkdownPreview";
 import { StoryCard } from "./StoryCard";
 
 function SkeletonCard() {
   return (
     <div className="surface animate-pulse rounded-xl p-4">
-      <div className="h-2.5 w-20 rounded bg-white/10" />
-      <div className="mt-2 h-4 w-2/3 rounded bg-white/10" />
-      <div className="mt-4 h-16 rounded bg-white/5" />
-      <div className="mt-3 h-20 rounded bg-white/5" />
+      <div className="h-2.5 w-20 rounded bg-hover" />
+      <div className="mt-2 h-4 w-2/3 rounded bg-hover" />
+      <div className="mt-4 h-16 rounded bg-inset" />
+      <div className="mt-3 h-20 rounded bg-inset" />
     </div>
   );
 }
@@ -56,14 +68,20 @@ export function OutputPanel({
 
   if (error) {
     return (
-      <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-[13px] text-rose-200">
-        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-rose-300">
+      <div className="rounded-xl border border-err-line bg-err-bg p-4 text-[13px] text-err">
+        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-err">
           analiz başarısız
         </p>
         <p className="mt-1.5 whitespace-pre-wrap leading-relaxed">{error}</p>
       </div>
     );
   }
+
+  return <ResultView result={result} />;
+}
+
+function ResultView({ result }: { result: AnalysisResult | null }) {
+  const [view, setView] = useState<"cards" | "markdown">("cards");
 
   if (!result) {
     return (
@@ -85,7 +103,27 @@ export function OutputPanel({
         <h2 className="text-base font-semibold tracking-tight">{result.title}</h2>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{result.summary}</p>
 
-        <div className="mt-3.5 flex flex-wrap gap-1.5 border-t border-line pt-3.5">
+        <div className="mt-3.5 flex flex-wrap items-center gap-1.5 border-t border-line pt-3.5">
+          <div className="mr-1 inline-flex rounded-md border border-line p-0.5">
+            {(["cards", "markdown"] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                className={cn(
+                  "inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[11px] transition",
+                  view === v ? "bg-hover text-ink" : "text-muted hover:text-ink",
+                )}
+              >
+                {v === "cards" ? (
+                  <LayoutGrid className="h-3 w-3" />
+                ) : (
+                  <AlignLeft className="h-3 w-3" />
+                )}
+                {v === "cards" ? "kartlar" : "markdown"}
+              </button>
+            ))}
+          </div>
           <CopyButton getText={() => toMarkdown(result)} label="markdown" />
           <CopyButton getText={() => toJira(result)} label="jira" />
           <DownloadBtn
@@ -103,14 +141,26 @@ export function OutputPanel({
         </div>
       </div>
 
+      {view === "markdown" ? (
+        <MarkdownPreview markdown={toMarkdown(result)} />
+      ) : (
+        <CardsView result={result} />
+      )}
+    </div>
+  );
+}
+
+function CardsView({ result }: { result: AnalysisResult }) {
+  return (
+    <div className="space-y-4">
       {(result.assumptions.length > 0 || result.openQuestions.length > 0) && (
         <div className="grid gap-3 sm:grid-cols-2">
           {result.assumptions.length > 0 && (
             <div className="surface-inset rounded-xl p-3 text-[13px]">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-amber-300/80">
+              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-warn">
                 <Lightbulb className="h-3.5 w-3.5" /> Varsayımlar
               </h4>
-              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-amber-400/50">
+              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-warn">
                 {result.assumptions.map((a, i) => (
                   <li key={i}>{a}</li>
                 ))}
@@ -119,10 +169,10 @@ export function OutputPanel({
           )}
           {result.openQuestions.length > 0 && (
             <div className="surface-inset rounded-xl p-3 text-[13px]">
-              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-sky-300/80">
+              <h4 className="mb-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-kw-given">
                 <HelpCircle className="h-3.5 w-3.5" /> Açık Sorular
               </h4>
-              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-sky-400/50">
+              <ul className="list-disc space-y-1 pl-4 text-muted marker:text-kw-given">
                 {result.openQuestions.map((q, i) => (
                   <li key={i}>{q}</li>
                 ))}

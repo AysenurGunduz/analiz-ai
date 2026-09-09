@@ -1,23 +1,78 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Açık tema (varsayılan) ---------- */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --bg: #09090b;
-  --bg-raised: #0e0e11;
-  --bg-inset: #141417;
-  --border: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.13);
+  --bg: #f7f8fa;
+  --bg-raised: #ffffff;
+  --bg-inset: #f0f2f5;
+  --border: rgba(15, 20, 30, 0.1);
+  --border-strong: rgba(15, 20, 30, 0.18);
 
-  --text: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --text-faint: #71717a;
+  --text: #1a1d23;
+  --text-muted: #5b616e;
+  --text-faint: #898f9c;
 
-  --accent: #5e6ad2;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
   --accent-fg: #ffffff;
+
+  --hover-surface: rgba(15, 20, 30, 0.05);
+
+  --ok: #15803d;
+  --warn: #b45309;
+  --warn-bg: #fef6e7;
+  --warn-line: rgba(180, 83, 9, 0.28);
+  --err: #b91c1c;
+  --err-bg: #fdeded;
+  --err-line: rgba(185, 28, 28, 0.28);
+  --info: #6b7280;
+
+  --kw-scenario: #7c3aed;
+  --kw-given: #0369a1;
+  --kw-when: #b45309;
+  --kw-then: #15803d;
 
   --background: var(--bg);
   --foreground: var(--text);
+}
+
+/* ---------- Koyu tema ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #1a1b1e;
+  --bg-raised: #212327;
+  --bg-inset: #26282d;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text: #e9eaec;
+  --text-muted: #a6a8ae;
+  --text-faint: #74767d;
+
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-fg: #ffffff;
+
+  --hover-surface: rgba(255, 255, 255, 0.06);
+
+  --ok: #4ade80;
+  --warn: #fbbf24;
+  --warn-bg: rgba(245, 158, 11, 0.14);
+  --warn-line: rgba(245, 158, 11, 0.3);
+  --err: #fb7185;
+  --err-bg: rgba(244, 63, 94, 0.16);
+  --err-line: rgba(244, 63, 94, 0.4);
+  --info: #9ca3af;
+
+  --kw-scenario: #a78bfa;
+  --kw-given: #38bdf8;
+  --kw-when: #fbbf24;
+  --kw-then: #34d399;
 }
 
 @theme inline {
@@ -30,6 +85,22 @@
   --color-muted: var(--text-muted);
   --color-faint: var(--text-faint);
   --color-accent: var(--accent);
+  --color-hover: var(--hover-surface);
+
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-line: var(--warn-line);
+  --color-err: var(--err);
+  --color-err-bg: var(--err-bg);
+  --color-err-line: var(--err-line);
+  --color-info: var(--info);
+
+  --color-kw-scenario: var(--kw-scenario);
+  --color-kw-given: var(--kw-given);
+  --color-kw-when: var(--kw-when);
+  --color-kw-then: var(--kw-then);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -51,10 +122,9 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-/* Ortak yüzey yardımcıları */
 @utility surface {
   background: var(--bg-raised);
   border: 1px solid var(--border);

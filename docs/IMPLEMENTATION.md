@@ -234,8 +234,40 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
 - `src/lib/query-samples.ts` — 3 örnek (hatalı satırlar / boş küme / temiz)
 - `src/components/SiteNav.tsx` — header'da Analiz ↔ Sorgu Kontrolü geçişi
 
+### Otomatik Veri Doğrulama modülü (feat/veri-dogrulama-modulu)
+Üçüncü sayfa: `/veri-dogrulama`. Ham veriyi tanımlı bir şemaya göre doğrular. Saf istemci.
+
+- `src/lib/validation/`
+  - `types.ts` — `FieldRule` (type/required/unique/min/max/pattern/allowed/dateFormat/notFuture…),
+    `Schema`, `ValidationIssue`, `ValidationReport`, `IssueCode`
+  - `validators.ts` — `checkType` (öneri döndürür), `parseAnyDate` (→ ISO), `isValidTckn`
+    (kontrol hanesi), `isValidIban` (mod-97), `isValidEmail`, `normalizePhone` (TR)
+  - `infer.ts` — `inferFieldType` + `inferSchema` (sıfır-ayar başlangıç; baskın tarih
+    formatını sabitler, anahtar kolonda ~benzersizlik, adet/miktar → min 0)
+  - `presets.ts` — TCKN/IBAN/e-posta/telefon/tutar/ISO-tarih/anahtar/enum hazır kuralları
+  - `validate.ts` — `validateDataset` (ana), `schemaToJson`/`schemaFromJson`, `validationReportToMarkdown`
+- `src/components/validation/SchemaEditor.tsx` — kolon başına düzenlenebilir kural tablosu + preset uygula
+- `src/components/validation/ValidationReportView.tsx` — özet, işaretli tablo (öneriler hücre içinde), bulgu listesi
+- Auto-fix YOK — öneriler sadece gösterilir (`issue.suggestion`), veriye dokunulmaz
+- `SiteNav`'a 3. sekme
+
+### Açık tema + toggle (feat/acik-tema-toggle)
+- **Varsayılan artık AÇIK tema** (`#f7f8fa` zemin). Header'da güneş/ay toggle'ı → koyu tema,
+  `localStorage['reqtostory:theme']`'de saklanır, FOUC engelleyen inline script `<body>` başında.
+- Tema `:root` (açık) / `:root[data-theme="dark"]` CSS değişkenleriyle; Tailwind v4
+  `@custom-variant dark` tanımlı.
+- Renkler artık semantik token: `bg-hover`, `text-ok/warn/err/info`, `bg-warn-bg/err-bg`,
+  `ring-warn-line/err-line`, `text-kw-scenario/given/when/then`. Bileşenlerde ham
+  `rose-*/amber-*/emerald-*/white/N` YOK — tema tek yerden (`globals.css`) değişir.
+
+### Markdown önizleme (feat/markdown-onizleme)
+- `react-markdown` + `remark-gfm`. Analiz çıktısında **kartlar ↔ markdown** segmentli geçişi
+  (`OutputPanel` → `ResultView` / `CardsView` / `MarkdownPreview`).
+- `MarkdownPreview`: `components` prop ile tüm elementler tema token'larıyla stillenir;
+  ```gherkin bloklarında satır bazında anahtar kelime renklendirmesi (kartlardaki ile aynı).
+- Kaynak: mevcut `toMarkdown(result)` — kopyala/indir ile birebir aynı çıktı.
+
 ### Kalanlar
-- [ ] `react-markdown` ile canlı Markdown önizleme sekmesi (opsiyonel)
 - [ ] README ekran görüntüleri
 - [ ] (Opsiyonel) Vercel deploy
 
