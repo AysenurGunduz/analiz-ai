@@ -7,6 +7,8 @@
  */
 import mammoth from "mammoth";
 import TurndownService from "turndown";
+// @ts-expect-error - turndown-plugin-gfm tip tanımı yok
+import { gfm } from "turndown-plugin-gfm";
 import {
   AlignmentType,
   Document,
@@ -25,13 +27,38 @@ const turndown = new TurndownService({
   bulletListMarker: "-",
   codeBlockStyle: "fenced",
 });
+turndown.use(gfm); // Word tablolarını markdown tablosuna çevir
+
+/** Mammoth başlıksız <table> üretir; gfm eklentisinin tabloyu çevirmesi için
+ *  her tablonun ilk satırını <thead><th> yapar. */
+function promoteTableHeaders(html: string): string {
+  if (typeof DOMParser === "undefined" || !html.includes("<table")) return html;
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("table").forEach((table) => {
+    // hücre içi <p>'leri düzleştir — markdown tablo hücresi tek satır olmalı
+    table.querySelectorAll("td, th").forEach((cell) => {
+      cell.innerHTML = cell.innerHTML.replace(/<\/p>\s*<p>/g, " ").replace(/<\/?p>/g, "").trim();
+    });
+    const firstRow = table.querySelector("tr");
+    if (!firstRow || table.querySelector("th")) return;
+    firstRow.querySelectorAll("td").forEach((td) => {
+      const th = doc.createElement("th");
+      th.innerHTML = td.innerHTML;
+      td.replaceWith(th);
+    });
+    const thead = doc.createElement("thead");
+    thead.appendChild(firstRow);
+    table.insertBefore(thead, table.firstChild);
+  });
+  return doc.body.innerHTML;
+}
 
 export async function docxToMarkdown(file: File): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
   const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
   return (
     turndown
-      .turndown(html)
+      .turndown(promoteTableHeaders(html))
       // turndown, şablon metnindeki yapı işaretlerini kaçırır — geri al
       .replace(/(\d)\\\./g, "$1.")
       .replace(/\\([[\]{}()#*_])/g, "$1")
