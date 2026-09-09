@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   AlignLeft,
+  FileCode2,
   FileJson,
   FileText,
   HelpCircle,
@@ -12,7 +13,13 @@ import {
   Terminal,
 } from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
-import { downloadFile, toJira, toJson, toMarkdown } from "@/lib/export";
+import {
+  downloadFile,
+  toGherkinFeature,
+  toJira,
+  toJson,
+  toMarkdown,
+} from "@/lib/export";
 import { cn } from "@/lib/cn";
 import { CopyButton } from "./CopyButton";
 import { MarkdownPreview } from "./MarkdownPreview";
@@ -126,11 +133,20 @@ function ResultView({ result }: { result: AnalysisResult | null }) {
           </div>
           <CopyButton getText={() => toMarkdown(result)} label="markdown" />
           <CopyButton getText={() => toJira(result)} label="jira" />
+          <CopyButton getText={() => toGherkinFeature(result)} label="gherkin" />
           <DownloadBtn
             onClick={() => downloadFile("reqtostory.md", toMarkdown(result), "text/markdown")}
             icon={FileText}
           >
             .md
+          </DownloadBtn>
+          <DownloadBtn
+            onClick={() =>
+              downloadFile("reqtostory.feature", toGherkinFeature(result), "text/plain")
+            }
+            icon={FileCode2}
+          >
+            .feature
           </DownloadBtn>
           <DownloadBtn
             onClick={() => downloadFile("reqtostory.json", toJson(result), "application/json")}

@@ -4,8 +4,10 @@
 
 1. **Analiz** (`/`) — Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli
    gereksinimleri **Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**,
-   **edge case'ler** ve **iş kurallarına** dönüştürür (Gemini). Yapılan her analiz
-   tarayıcıya kaydedilir — sayfadaki **Geçmiş** panelinden geri açılır (yalnızca bu cihaz).
+   **edge case'ler** ve **iş kurallarına** dönüştürür (Gemini). Girdi kutusu, analiz
+   öncesi **belirsiz ifadeleri** ("hızlı olsun", "gerekirse", "vs.") istemci tarafında
+   işaretler. Yapılan her analiz tarayıcıya kaydedilir — sayfadaki **Geçmiş**
+   panelinden geri açılır (yalnızca bu cihaz).
 2. **Sorgu Kontrolü** (`/sorgu-kontrol`) — Analistin çalıştırdığı SQL sorgusunun çıktısını
    (CSV/TSV) alır; boş sonuç kümesi, NULL/boş hücre, tip-format tutarsızlığı ve hata
    işaretçilerini renklendirerek işaretler. Tamamen istemci tarafında, saf fonksiyon.
@@ -72,5 +74,5 @@ AnalysisResult
 
 ## Dışa aktarma
 
-- Panoya kopyala: Markdown veya Jira wiki markup
-- İndir: `.md` veya `.json`
+- Panoya kopyala: Markdown, Jira wiki markup veya Gherkin
+- İndir: `.md`, `.feature` (Cucumber — her hikaye bir `Feature:` bloğu) veya `.json`

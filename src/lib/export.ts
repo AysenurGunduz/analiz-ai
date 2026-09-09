@@ -101,6 +101,65 @@ export function toJira(r: AnalysisResult): string {
   return lines.join("\n");
 }
 
+/**
+ * Cucumber `.feature` metni — her User Story bir `Feature:` bloğu olur.
+ * Doğrudan QA otomasyonuna yapıştırılabilir; edge case ve iş kuralları
+ * yorum satırı olarak eklenir (senaryoya çevrilmesi analiste kalır).
+ */
+export function toGherkinFeature(r: AnalysisResult): string {
+  const out: string[] = [
+    `# ${r.title}`,
+    ...r.summary.split("\n").map((l) => `# ${l}`),
+    "# Kaynak: ReqToStory · üretilen taslak, gözden geçirin",
+  ];
+  if (r.assumptions.length) {
+    out.push("#", "# Varsayımlar:");
+    r.assumptions.forEach((a) => out.push(`#   - ${a}`));
+  }
+  if (r.openQuestions.length) {
+    out.push("#", "# Açık sorular:");
+    r.openQuestions.forEach((q) => out.push(`#   - ${q}`));
+  }
+
+  r.stories.forEach((story) => {
+    out.push("");
+    out.push(`@${slugTag(story.id)} @oncelik-${slugTag(story.priority)}`);
+    out.push(`Feature: ${story.title}`);
+    out.push(`  As a ${story.role}`);
+    out.push(`  I want ${story.feature}`);
+    out.push(`  So that ${story.benefit}`);
+    story.acceptanceCriteria.forEach((s) => {
+      out.push("");
+      out.push(...gherkinLines(s).map((l) => `  ${l}`));
+    });
+    if (story.edgeCases.length) {
+      out.push("");
+      out.push("  # Negatif / istisnai durumlar (senaryolaştırılacak):");
+      story.edgeCases.forEach((e) => out.push(`  #   - ${e}`));
+    }
+    if (story.businessRules.length) {
+      out.push("");
+      out.push("  # İş kuralları:");
+      story.businessRules.forEach((rule) => out.push(`  #   - ${rule}`));
+    }
+  });
+  out.push("");
+  return out.join("\n");
+}
+
+/** Etiket/dosya adı için güvenli slug (Türkçe karakterleri sadeleştirir). */
+function slugTag(s: string): string {
+  const map: Record<string, string> = {
+    ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u",
+    Ç: "C", Ğ: "G", İ: "I", Ö: "O", Ş: "S", Ü: "U",
+  };
+  return s
+    .replace(/[çğıöşüÇĞİÖŞÜ]/g, (c) => map[c] ?? c)
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+}
+
 export function toJson(r: AnalysisResult): string {
   return JSON.stringify(r, null, 2);
 }
