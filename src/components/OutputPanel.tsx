@@ -1,9 +1,21 @@
 "use client";
 
-import { FileJson, FileText, HelpCircle, Lightbulb, Loader2, Terminal } from "lucide-react";
+import { useState } from "react";
+import {
+  AlignLeft,
+  FileJson,
+  FileText,
+  HelpCircle,
+  LayoutGrid,
+  Lightbulb,
+  Loader2,
+  Terminal,
+} from "lucide-react";
 import type { AnalysisResult } from "@/lib/types";
 import { downloadFile, toJira, toJson, toMarkdown } from "@/lib/export";
+import { cn } from "@/lib/cn";
 import { CopyButton } from "./CopyButton";
+import { MarkdownPreview } from "./MarkdownPreview";
 import { StoryCard } from "./StoryCard";
 
 function SkeletonCard() {
@@ -65,6 +77,12 @@ export function OutputPanel({
     );
   }
 
+  return <ResultView result={result} />;
+}
+
+function ResultView({ result }: { result: AnalysisResult | null }) {
+  const [view, setView] = useState<"cards" | "markdown">("cards");
+
   if (!result) {
     return (
       <div className="surface flex min-h-[320px] flex-col items-center justify-center rounded-xl border-dashed p-8 text-center">
@@ -85,7 +103,27 @@ export function OutputPanel({
         <h2 className="text-base font-semibold tracking-tight">{result.title}</h2>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{result.summary}</p>
 
-        <div className="mt-3.5 flex flex-wrap gap-1.5 border-t border-line pt-3.5">
+        <div className="mt-3.5 flex flex-wrap items-center gap-1.5 border-t border-line pt-3.5">
+          <div className="mr-1 inline-flex rounded-md border border-line p-0.5">
+            {(["cards", "markdown"] as const).map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setView(v)}
+                className={cn(
+                  "inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[11px] transition",
+                  view === v ? "bg-hover text-ink" : "text-muted hover:text-ink",
+                )}
+              >
+                {v === "cards" ? (
+                  <LayoutGrid className="h-3 w-3" />
+                ) : (
+                  <AlignLeft className="h-3 w-3" />
+                )}
+                {v === "cards" ? "kartlar" : "markdown"}
+              </button>
+            ))}
+          </div>
           <CopyButton getText={() => toMarkdown(result)} label="markdown" />
           <CopyButton getText={() => toJira(result)} label="jira" />
           <DownloadBtn
@@ -103,6 +141,18 @@ export function OutputPanel({
         </div>
       </div>
 
+      {view === "markdown" ? (
+        <MarkdownPreview markdown={toMarkdown(result)} />
+      ) : (
+        <CardsView result={result} />
+      )}
+    </div>
+  );
+}
+
+function CardsView({ result }: { result: AnalysisResult }) {
+  return (
+    <div className="space-y-4">
       {(result.assumptions.length > 0 || result.openQuestions.length > 0) && (
         <div className="grid gap-3 sm:grid-cols-2">
           {result.assumptions.length > 0 && (
