@@ -5,7 +5,7 @@
 import type { InputState } from "@/components/InputPanel";
 import type { AnalysisResult } from "@/lib/types";
 
-const KEY = "reqtostory:analiz-history";
+const KEY = "pusula:analiz-history";
 const LIMIT = 25;
 
 export interface AnalizHistoryEntry {

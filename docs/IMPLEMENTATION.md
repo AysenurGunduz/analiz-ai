@@ -1,4 +1,4 @@
-# ReqToStory — Implementation Notları
+# Pusula — Implementation Notları
 
 Bu belge, projenin nasıl kurulduğunu, hangi kararların neden alındığını ve veri
 akışını anlatır. Kod okumadan önce buraya bakılabilir.
@@ -7,7 +7,7 @@ akışını anlatır. Kod okumadan önce buraya bakılabilir.
 
 ## 1. Genel Bakış
 
-ReqToStory, tek ekranlık bir iç araçtır:
+Pusula, tek ekranlık bir iç araçtır:
 
 ```
 [Sol Panel: Ham Girdi] ──POST /api/generate──▶ [Gemini] ──JSON──▶ [Zod doğrulama] ──▶ [Sağ Panel: Kartlar]
@@ -209,7 +209,7 @@ Gherkin satır üretimi tek yerde (`gherkinLines` / `scenarioToText`) — birden
 - [x] `?demo=1` — API anahtarı olmadan örnek çıktı (`src/lib/demo.ts`), demo/önizleme için
 - [x] Hikaye başına "md" kopyala butonu (`storyToMarkdown`)
 - [x] ⌘/Ctrl + Enter ile gönderme
-- [x] "temizle" butonu + taslağın `localStorage`'a otomatik kaydı (`reqtostory:draft`)
+- [x] "temizle" butonu + taslağın `localStorage`'a otomatik kaydı (`pusula:draft`)
 
 ### Gerçek Gemini testi (feat/gemini-live-test)
 - [x] `gemini-3.6-flash` ile uçtan uca test — 4 örnek senaryo, çıktı kalitesi iyi
@@ -253,7 +253,7 @@ yapıştırır; saf istemci fonksiyonu kontrol eder (API yok, veri sunucuya gitm
 
 ### Açık tema + toggle (feat/acik-tema-toggle)
 - **Varsayılan artık AÇIK tema** (`#f7f8fa` zemin). Header'da güneş/ay toggle'ı → koyu tema,
-  `localStorage['reqtostory:theme']`'de saklanır, FOUC engelleyen inline script `<body>` başında.
+  `localStorage['pusula:theme']`'de saklanır, FOUC engelleyen inline script `<body>` başında.
 - Tema `:root` (açık) / `:root[data-theme="dark"]` CSS değişkenleriyle; Tailwind v4
   `@custom-variant dark` tanımlı.
 - Renkler artık semantik token: `bg-hover`, `text-ok/warn/err/info`, `bg-warn-bg/err-bg`,

@@ -107,7 +107,7 @@ function ResultView({ result }: { result: AnalysisResult | null }) {
   return (
     <div className="space-y-4">
       <div className="surface rounded-xl p-4">
-        <h2 className="text-base font-semibold tracking-tight">{result.title}</h2>
+        <h2 className="font-serif text-lg font-semibold tracking-tight">{result.title}</h2>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{result.summary}</p>
 
         <div className="mt-3.5 flex flex-wrap items-center gap-1.5 border-t border-line pt-3.5">
@@ -135,21 +135,21 @@ function ResultView({ result }: { result: AnalysisResult | null }) {
           <CopyButton getText={() => toJira(result)} label="jira" />
           <CopyButton getText={() => toGherkinFeature(result)} label="gherkin" />
           <DownloadBtn
-            onClick={() => downloadFile("reqtostory.md", toMarkdown(result), "text/markdown")}
+            onClick={() => downloadFile("pusula.md", toMarkdown(result), "text/markdown")}
             icon={FileText}
           >
             .md
           </DownloadBtn>
           <DownloadBtn
             onClick={() =>
-              downloadFile("reqtostory.feature", toGherkinFeature(result), "text/plain")
+              downloadFile("pusula.feature", toGherkinFeature(result), "text/plain")
             }
             icon={FileCode2}
           >
             .feature
           </DownloadBtn>
           <DownloadBtn
-            onClick={() => downloadFile("reqtostory.json", toJson(result), "application/json")}
+            onClick={() => downloadFile("pusula.json", toJson(result), "application/json")}
             icon={FileJson}
           >
             .json

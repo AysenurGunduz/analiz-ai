@@ -50,7 +50,7 @@ export default function SorguKontrolPage() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
       <div className="mb-8 max-w-2xl">
-        <h1 className="text-xl font-semibold tracking-tight">Sorgu çıktısı kontrolü</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Sorgu çıktısı kontrolü</h1>
         <p className="mt-1.5 text-sm text-muted">
           Analistin çalıştırdığı sorgunun çıktısını yapıştır; boş sonuç kümesi,
           NULL/boş hücre, tip-format tutarsızlığı ve hata işaretçileri işaretlenir.

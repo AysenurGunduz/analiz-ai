@@ -16,7 +16,7 @@ import {
 import { VALIDATION_SAMPLES } from "@/lib/validation/samples";
 
 type Delim = "auto" | ParsedTable["delimiter"];
-const STORE = "reqtostory:veri-dogrulama";
+const STORE = "pusula:veri-dogrulama";
 
 const fieldClass =
   "w-full min-w-0 rounded-lg border border-line bg-inset px-2.5 py-2 text-[13px] text-ink outline-none transition focus:border-line-strong placeholder:text-faint";
@@ -126,7 +126,7 @@ export default function VeriDogrulamaPage() {
   return (
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
       <div className="mb-8 max-w-2xl">
-        <h1 className="text-xl font-semibold tracking-tight">Otomatik Veri Doğrulama</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Otomatik Veri Doğrulama</h1>
         <p className="mt-1.5 text-sm text-muted">
           Ham veriyi / SQL çıktısını tanımlı bir şemaya göre doğrular: eksik zorunlu alanlar,
           geçersiz tarih-sayı formatları, izin dışı değerler, TCKN/IBAN/e-posta kontrolü.

@@ -110,7 +110,7 @@ export function toGherkinFeature(r: AnalysisResult): string {
   const out: string[] = [
     `# ${r.title}`,
     ...r.summary.split("\n").map((l) => `# ${l}`),
-    "# Kaynak: ReqToStory · üretilen taslak, gözden geçirin",
+    "# Kaynak: Pusula · üretilen taslak, gözden geçirin",
   ];
   if (r.assumptions.length) {
     out.push("#", "# Varsayımlar:");

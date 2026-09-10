@@ -1,6 +1,6 @@
-# ReqToStory · AI Destekli İş Analizi ve Gereksinim Asistanı
+# Pusula · AI Destekli İş Analizi Asistanı
 
-Üç modüllü hafif iç araç:
+Dağınık gereksinimler arasında yön bulmanı sağlayan, dört modüllü hafif iç araç:
 
 1. **Analiz** (`/`) — Ham müşteri taleplerini, toplantı notlarını veya serbest biçimli
    gereksinimleri **Kullanıcı Hikayeleri**, **Gherkin (Given-When-Then) kabul kriterleri**,
