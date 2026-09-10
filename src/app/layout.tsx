@@ -27,6 +27,9 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
+      // themeInitScript, hydrate'den önce <html>'e data-theme ekler; bu tek
+      // attribute farkı için uyarıyı bastır (yalnızca <html> düzeyinde).
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-bg text-ink">
