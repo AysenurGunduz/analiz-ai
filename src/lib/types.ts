@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * ReqToStory - AI çıktısının tek doğruluk kaynağı (single source of truth).
+ * Pusula - AI çıktısının tek doğruluk kaynağı (single source of truth).
  * Hem API route validasyonunda hem de UI tipi olarak kullanılır.
  */
 

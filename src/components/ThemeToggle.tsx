@@ -6,7 +6,7 @@ import { Moon, Sun } from "lucide-react";
 type Theme = "light" | "dark";
 
 /** FOUC engelleyen inline script — <body> başına konur, React hydrate olmadan çalışır. */
-export const themeInitScript = `(function(){try{var t=localStorage.getItem('reqtostory:theme');if(t!=='light'&&t!=='dark'){t='light'}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();`;
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('pusula:theme');if(t!=='light'&&t!=='dark'){t='light'}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='light';}})();`;
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
@@ -22,7 +22,7 @@ export function ThemeToggle() {
     setTheme(next);
     document.documentElement.dataset.theme = next;
     try {
-      localStorage.setItem("reqtostory:theme", next);
+      localStorage.setItem("pusula:theme", next);
     } catch {
       /* private mode */
     }

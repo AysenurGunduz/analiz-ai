@@ -16,7 +16,7 @@ import {
 import type { AnalysisResult, GenerateResponse } from "@/lib/types";
 
 const EMPTY: InputState = { rawText: "", projectType: "", audienceRole: "" };
-const DRAFT_KEY = "reqtostory:draft";
+const DRAFT_KEY = "pusula:draft";
 
 function StepLabel({ n, title, hint }: { n: string; title: string; hint?: string }) {
   return (
@@ -117,7 +117,7 @@ export default function Page() {
     <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">
       <div className="mb-8 flex items-start justify-between gap-4">
         <div className="max-w-2xl">
-          <h1 className="text-xl font-semibold tracking-tight">
+          <h1 className="font-serif text-2xl font-semibold tracking-tight">
             Dağınık gereksinimleri analiz çıktısına çevir
           </h1>
           <p className="mt-1.5 text-sm text-muted">
